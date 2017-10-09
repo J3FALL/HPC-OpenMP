@@ -1,3 +1,0 @@
-C:/Users/Gospodin/CLionProjects/HPC-OpenMP/cmake-build-debug/CMakeFiles/HPC_OpenMP.dir
-C:/Users/Gospodin/CLionProjects/HPC-OpenMP/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Gospodin/CLionProjects/HPC-OpenMP/cmake-build-debug/CMakeFiles/rebuild_cache.dir
