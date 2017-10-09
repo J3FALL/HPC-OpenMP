@@ -1,8 +1,10 @@
 #include <iostream>
-#include <time.h>
 #include <algorithm>
+#include <chrono>
 
-#define N 100 // N * N = size of matrix
+#define N 10000 // N * N = size of matrix
+
+using namespace std::chrono;
 
 void initMatrix(int **&matrix) {
 
@@ -69,6 +71,14 @@ int main() {
 
     int **matrix;
     initMatrix(matrix);
-    
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
     calculateMatrixValuesSequentially(matrix);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Sequential calculation duration: " << duration;
+
+    return 0;
 }
