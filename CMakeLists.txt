@@ -3,7 +3,7 @@ project(HPC_OpenMP)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES matrix.cpp)
 
 message(STATUS "Checking OpenMP")
 find_package(OpenMP)
