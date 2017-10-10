@@ -4,6 +4,7 @@
 #include <omp.h>
 
 #define N 10000 // N * N = size of matrix
+#define VECTOR_SIZE 100000000
 
 int numberOfThreads = 8;
 
@@ -129,7 +130,8 @@ void calculateMatrixValuesParallel(int **matrix) {
     std::cout << "full matrix - " << "min: " << matrixMin << "; max: " << matrixMax << "\n";
 }
 
-int main() {
+void runMatrixExperiment() {
+    std::cout << "Run matrix experiment\n";
 
     int **matrix;
     initMatrix(matrix);
@@ -149,7 +151,74 @@ int main() {
     duration = duration_cast<milliseconds>(end - begin).count();
 
     std::cout << "Parallel calculation duration: " << duration << "\n";
+}
 
+long calculateScalarProductSequentially(int *vectorA, int *vectorB) {
+    std::cout << "Starting sequential calculations \n";
+
+    long product = 0;
+
+    for (int i = 0; i < VECTOR_SIZE; i++) {
+        product += vectorA[i] * vectorB[i];
+    }
+
+    return product;
+}
+
+long calculateScalarProductParallel(int *vectorA, int *vectorB) {
+    std::cout << "Starting parallel calculations \n";
+
+    omp_set_num_threads(numberOfThreads);
+
+    long product = 0;
+
+    #pragma omp parallel for schedule(static) reduction(+:product)
+    for (int i = 0; i < VECTOR_SIZE; i++) {
+        product += vectorA[i] * vectorB[i];
+    }
+
+    return product;
+}
+
+void initVector(int *&vector) {
+
+    srand(time(NULL));
+
+    vector = new int[VECTOR_SIZE];
+    for (int i = 0; i < VECTOR_SIZE; i++) {
+        vector[i] = -250 + rand() % 1000;
+    }
+}
+
+void runVectorExperiment() {
+    std::cout << "Run vector experiment\n";
+
+    int *vectorA, *vectorB;
+
+    initVector(vectorA);
+    initVector(vectorB);
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    long product = calculateScalarProductSequentially(vectorA, vectorB);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Product: " << product << "\n";
+    std::cout << "Sequential calculation duration: " << duration << "\n";
+
+    begin = high_resolution_clock::now();
+    product = calculateScalarProductParallel(vectorA, vectorB);
+    end = high_resolution_clock::now();
+    duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Product: " << product << "\n";
+    std::cout << "Parallel calculation duration: " << duration << "\n";
+}
+
+int main() {
+
+    runMatrixExperiment();
+    runVectorExperiment();
 
     return 0;
 }
