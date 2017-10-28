@@ -2,11 +2,12 @@
 #include <algorithm>
 #include <chrono>
 #include <omp.h>
+#include "integral.h"
 
 #define N 10000 // N * N = size of matrix
 #define VECTOR_SIZE 100000000
 
-int numberOfThreads = 8;
+int numberOfThreads = 16;
 
 using namespace std::chrono;
 
@@ -85,7 +86,7 @@ void calculateMatrixValuesParallel(int **matrix) {
     double diagAverage;
     int matrixMax, matrixMin;
 
-    #pragma omp parallel for schedule(static)  reduction(+:diagSum)
+#pragma omp parallel for schedule(static)  reduction(+:diagSum)
     for (int i = 0; i < N; i++) {
 
         //std::cout << "iteration: " << i << " from thread: " << omp_get_thread_num() << "\n";
@@ -172,7 +173,7 @@ long calculateScalarProductParallel(int *vectorA, int *vectorB) {
 
     long product = 0;
 
-    #pragma omp parallel for schedule(static) reduction(+:product)
+#pragma omp parallel for schedule(static) reduction(+:product)
     for (int i = 0; i < VECTOR_SIZE; i++) {
         product += vectorA[i] * vectorB[i];
     }
@@ -216,9 +217,17 @@ void runVectorExperiment() {
 }
 
 int main() {
-
+    /*
     runMatrixExperiment();
     runVectorExperiment();
+    */
+    double eps = 1.0e-06;
+
+    //std::cout << calculateSerialIntegral(0.00001, 0.0001, eps);
+    std::cout << calculateIntegralWithAtomic(0.00001, 0.0001, eps) << "\n";
+    //std::cout << calculateIntegralWithCritical(0.00001, 0.0001, eps) << "\n";
+    //std::cout << calculateIntegralWithLocks(0.00001, 0.0001, eps) << "\n";
+    std::cout << calculateIntegralWithReduction(0.00001, 0.0001, eps) << "\n";
 
     return 0;
 }
