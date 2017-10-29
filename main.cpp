@@ -216,18 +216,97 @@ void runVectorExperiment() {
     std::cout << "Parallel calculation duration: " << duration << "\n";
 }
 
+void runSerialIntegralExperiment() {
+    std::cout << "Run serial integral calculation experiment\n";
+
+    double eps = 1.0e-06;
+    double a = 10.0, b = 100.0;
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    double result = calculateSerialIntegral(a, b, eps);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Result: " << result << "\n";
+    std::cout << "Serial integral calculation duration: " << duration << "\n";
+
+}
+
+void runIntegralWithAtomicExperiment() {
+    std::cout << "Run integral calculation with atomic experiment\n";
+
+    double eps = 1.0e-06;
+    double a = 0.00001, b = 0.0001;
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    double result = calculateIntegralWithAtomic(a, b, eps);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Result: " << result << "\n";
+    std::cout << "Integral calculation with atomic duration: " << duration << "\n";
+
+}
+
+void runIntegralWithCriticalExperiment() {
+    std::cout << "Run integral calculation with critical experiment\n";
+
+    double eps = 1.0e-06;
+    double a = 0.00001, b = 0.0001;
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    double result = calculateIntegralWithCritical(a, b, eps);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Result: " << result << "\n";
+    std::cout << "Integral calculation with critical duration: " << duration << "\n";
+
+}
+
+void runIntegralWithLocksExperiment() {
+    std::cout << "Run integral calculation with locks experiment\n";
+
+    double eps = 1.0e-06;
+    double a = 0.00001, b = 0.0001;
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    double result = calculateIntegralWithCritical(a, b, eps);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Result: " << result << "\n";
+    std::cout << "Integral calculation with locks duration: " << duration << "\n";
+
+}
+
+void runIntegralWithReductionExperiment() {
+    std::cout << "Run integral calculation with reduction experiment\n";
+
+    double eps = 1.0e-06;
+    double a = 0.00001, b = 0.0001;
+
+    high_resolution_clock::time_point begin = high_resolution_clock::now();
+    double result = calculateIntegralWithCritical(a, b, eps);
+    high_resolution_clock::time_point end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - begin).count();
+
+    std::cout << "Result: " << result << "\n";
+    std::cout << "Integral calculation with reduction duration: " << duration << "\n";
+
+}
+
 int main() {
     /*
     runMatrixExperiment();
     runVectorExperiment();
     */
-    double eps = 1.0e-06;
 
-    //std::cout << calculateSerialIntegral(0.00001, 0.0001, eps);
-    std::cout << calculateIntegralWithAtomic(0.00001, 0.0001, eps) << "\n";
-    //std::cout << calculateIntegralWithCritical(0.00001, 0.0001, eps) << "\n";
-    //std::cout << calculateIntegralWithLocks(0.00001, 0.0001, eps) << "\n";
-    std::cout << calculateIntegralWithReduction(0.00001, 0.0001, eps) << "\n";
+    runSerialIntegralExperiment();
+    runIntegralWithAtomicExperiment();
+    runIntegralWithCriticalExperiment();
+    runIntegralWithLocksExperiment();
+    runIntegralWithReductionExperiment();
 
     return 0;
 }
