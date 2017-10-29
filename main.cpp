@@ -219,80 +219,148 @@ void runVectorExperiment() {
 void runSerialIntegralExperiment() {
     std::cout << "Run serial integral calculation experiment\n";
 
+    int numberOfExperiments = 7;
+    double a[] = {0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0};
+    double b[] = {0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0};
+    double pointsAmount[numberOfExperiments];
+    double duration[numberOfExperiments];
+
     double eps = 1.0e-06;
-    double a = 10.0, b = 100.0;
 
-    high_resolution_clock::time_point begin = high_resolution_clock::now();
-    double result = calculateSerialIntegral(a, b, eps);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - begin).count();
+    for (int i = 0; i < numberOfExperiments; i++) {
+        high_resolution_clock::time_point begin = high_resolution_clock::now();
+        IntegralResults results = calculateSerialIntegral(a[i], b[i], eps);
+        high_resolution_clock::time_point end = high_resolution_clock::now();
+        auto durationTemp = duration_cast<milliseconds>(end - begin).count();
 
-    std::cout << "Result: " << result << "\n";
-    std::cout << "Serial integral calculation duration: " << duration << "\n";
+        std::cout << "Result: " << results.result << "\n";
 
+        pointsAmount[i] = results.points;
+        duration[i] = durationTemp;
+    }
+
+    std::cout << "#### RESULTS FOR SERIAL ####\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        std::cout << "#" << i + 1 << " points: " << pointsAmount[i] << "; duration: " << duration[i] << "\n";
+    }
 }
 
 void runIntegralWithAtomicExperiment() {
     std::cout << "Run integral calculation with atomic experiment\n";
 
+    int numberOfExperiments = 7;
+    double a[] = {0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0};
+    double b[] = {0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0};
+    double pointsAmount[numberOfExperiments];
+    double duration[numberOfExperiments];
+
     double eps = 1.0e-06;
-    double a = 0.00001, b = 0.0001;
 
-    high_resolution_clock::time_point begin = high_resolution_clock::now();
-    double result = calculateIntegralWithAtomic(a, b, eps);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - begin).count();
+    for (int i = 0; i < numberOfExperiments; i++) {
+        high_resolution_clock::time_point begin = high_resolution_clock::now();
+        IntegralResults results = calculateIntegralWithAtomic(a[i], b[i], eps);
+        high_resolution_clock::time_point end = high_resolution_clock::now();
+        auto durationTemp = duration_cast<milliseconds>(end - begin).count();
 
-    std::cout << "Result: " << result << "\n";
-    std::cout << "Integral calculation with atomic duration: " << duration << "\n";
+        std::cout << "Result: " << results.result << "\n";
+
+        pointsAmount[i] = results.points;
+        duration[i] = durationTemp;
+    }
+
+    std::cout << "#### RESULTS FOR ATOMIC ####\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        std::cout << "#" << i + 1 << " points: " << pointsAmount[i] << "; duration: " << duration[i] << "\n";
+    }
 
 }
 
 void runIntegralWithCriticalExperiment() {
     std::cout << "Run integral calculation with critical experiment\n";
 
-    double eps = 1.0e-06;
-    double a = 0.00001, b = 0.0001;
+    int numberOfExperiments = 7;
+    double a[] = {0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0};
+    double b[] = {0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0};
+    double pointsAmount[numberOfExperiments];
+    double duration[numberOfExperiments];
 
-    high_resolution_clock::time_point begin = high_resolution_clock::now();
-    double result = calculateIntegralWithCritical(a, b, eps);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - begin).count();
+    double eps = 1.0e-05;
 
-    std::cout << "Result: " << result << "\n";
-    std::cout << "Integral calculation with critical duration: " << duration << "\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        high_resolution_clock::time_point begin = high_resolution_clock::now();
+        IntegralResults results = calculateIntegralWithCritical(a[i], b[i], eps);
+        high_resolution_clock::time_point end = high_resolution_clock::now();
+        auto durationTemp = duration_cast<milliseconds>(end - begin).count();
+
+        std::cout << "Result: " << results.result << "\n";
+
+        pointsAmount[i] = results.points;
+        duration[i] = durationTemp;
+    }
+
+    std::cout << "#### RESULTS FOR CRITICAL ####\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        std::cout << "#" << i + 1 << " points: " << pointsAmount[i] << "; duration: " << duration[i] << "\n";
+    }
 
 }
 
 void runIntegralWithLocksExperiment() {
     std::cout << "Run integral calculation with locks experiment\n";
 
-    double eps = 1.0e-06;
-    double a = 0.00001, b = 0.0001;
+    int numberOfExperiments = 7;
+    double a[] = {0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0};
+    double b[] = {0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0};
+    double pointsAmount[numberOfExperiments];
+    double duration[numberOfExperiments];
 
-    high_resolution_clock::time_point begin = high_resolution_clock::now();
-    double result = calculateIntegralWithCritical(a, b, eps);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - begin).count();
+    double eps = 1.0e-05;
 
-    std::cout << "Result: " << result << "\n";
-    std::cout << "Integral calculation with locks duration: " << duration << "\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        high_resolution_clock::time_point begin = high_resolution_clock::now();
+        IntegralResults results = calculateIntegralWithLocks(a[i], b[i], eps);
+        high_resolution_clock::time_point end = high_resolution_clock::now();
+        auto durationTemp = duration_cast<milliseconds>(end - begin).count();
 
+        std::cout << "Result: " << results.result << "\n";
+
+        pointsAmount[i] = results.points;
+        duration[i] = durationTemp;
+    }
+
+    std::cout << "#### RESULTS FOR LOCKS ####\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        std::cout << "#" << i + 1 << " points: " << pointsAmount[i] << "; duration: " << duration[i] << "\n";
+    }
 }
 
 void runIntegralWithReductionExperiment() {
     std::cout << "Run integral calculation with reduction experiment\n";
 
+    int numberOfExperiments = 7;
+    double a[] = {0.00001, 0.0001, 0.001, 0.01, 0.1, 1.0, 10.0};
+    double b[] = {0.0001, 0.001, 0.01, 0.1, 1.0, 10.0, 100.0};
+    double pointsAmount[numberOfExperiments];
+    double duration[numberOfExperiments];
+
     double eps = 1.0e-06;
-    double a = 0.00001, b = 0.0001;
 
-    high_resolution_clock::time_point begin = high_resolution_clock::now();
-    double result = calculateIntegralWithCritical(a, b, eps);
-    high_resolution_clock::time_point end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - begin).count();
+    for (int i = 0; i < numberOfExperiments; i++) {
+        high_resolution_clock::time_point begin = high_resolution_clock::now();
+        IntegralResults results = calculateIntegralWithReduction(a[i], b[i], eps);
+        high_resolution_clock::time_point end = high_resolution_clock::now();
+        auto durationTemp = duration_cast<milliseconds>(end - begin).count();
 
-    std::cout << "Result: " << result << "\n";
-    std::cout << "Integral calculation with reduction duration: " << duration << "\n";
+        std::cout << "Result: " << results.result << "\n";
+
+        pointsAmount[i] = results.points;
+        duration[i] = durationTemp;
+    }
+
+    std::cout << "#### RESULTS FOR REDUCTION ####\n";
+    for (int i = 0; i < numberOfExperiments; i++) {
+        std::cout << "#" << i + 1 << " points: " << pointsAmount[i] << "; duration: " << duration[i] << "\n";
+    }
 
 }
 
@@ -302,10 +370,10 @@ int main() {
     runVectorExperiment();
     */
 
-    runSerialIntegralExperiment();
-    runIntegralWithAtomicExperiment();
-    runIntegralWithCriticalExperiment();
-    runIntegralWithLocksExperiment();
+    //runSerialIntegralExperiment();
+    //runIntegralWithAtomicExperiment();
+    //runIntegralWithCriticalExperiment();
+    //runIntegralWithLocksExperiment();
     runIntegralWithReductionExperiment();
 
     return 0;

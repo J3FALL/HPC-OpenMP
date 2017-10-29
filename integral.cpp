@@ -12,7 +12,7 @@ bool isEqualOrder(double a, double b) {
     return (a / b < 10.0 && a / b > 1.0) ? true : false;
 }
 
-double calculateSerialIntegral(double start, double end, double precision) {
+IntegralResults calculateSerialIntegral(double start, double end, double precision) {
 
     //initial approximation for 2 steps
     long step = 2;
@@ -35,10 +35,15 @@ double calculateSerialIntegral(double start, double end, double precision) {
     }
 
     std::cout << "Number of steps: " << step << "\n";
-    return current_approx;
+
+    IntegralResults results;
+    results.result = current_approx;
+    results.points = step;
+
+    return results;
 }
 
-double calculateIntegralWithAtomic(double start, double end, double precision) {
+IntegralResults calculateIntegralWithAtomic(double start, double end, double precision) {
 
     int numberOfThreads = 8;
 
@@ -68,10 +73,15 @@ double calculateIntegralWithAtomic(double start, double end, double precision) {
     }
 
     std::cout << "Number of steps: " << step << "\n";
-    return current_approx;
+
+    IntegralResults results;
+    results.result = current_approx;
+    results.points = step;
+
+    return results;
 }
 
-double calculateIntegralWithCritical(double start, double end, double precision) {
+IntegralResults calculateIntegralWithCritical(double start, double end, double precision) {
 
     int numberOfThreads = 8;
 
@@ -101,10 +111,15 @@ double calculateIntegralWithCritical(double start, double end, double precision)
     }
 
     std::cout << "Number of steps: " << step << "\n";
-    return current_approx;
+
+    IntegralResults results;
+    results.result = current_approx;
+    results.points = step;
+
+    return results;
 }
 
-double calculateIntegralWithLocks(double start, double end, double precision) {
+IntegralResults calculateIntegralWithLocks(double start, double end, double precision) {
 
     int numberOfThreads = 8;
 
@@ -142,10 +157,15 @@ double calculateIntegralWithLocks(double start, double end, double precision) {
     omp_destroy_lock(&sum_lock);
 
     std::cout << "Number of steps: " << step << "\n";
-    return current_approx;
+
+    IntegralResults results;
+    results.result = current_approx;
+    results.points = step;
+
+    return results;
 }
 
-double calculateIntegralWithReduction(double start, double end, double precision) {
+IntegralResults calculateIntegralWithReduction(double start, double end, double precision) {
 
     int numberOfThreads = 8;
 
@@ -173,5 +193,10 @@ double calculateIntegralWithReduction(double start, double end, double precision
     }
 
     std::cout << "Number of steps: " << step << "\n";
-    return current_approx;
+
+    IntegralResults results;
+    results.result = current_approx;
+    results.points = step;
+
+    return results;
 }
